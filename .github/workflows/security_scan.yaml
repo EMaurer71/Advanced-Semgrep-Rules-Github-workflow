@@ -1,0 +1,2 @@
+- name: Run Semgrep (custom rules)
+  run: semgrep --config ./rules --json -o reports/semgrep_ci.json
