@@ -1,0 +1,14 @@
+rules:
+  - id: model-path-traversal
+    severity: ERROR
+    message: "User-controlled model path — path traversal risk."
+    languages: [python]
+    patterns:
+      - pattern: open($PATH, $MODE)
+      - metavariable-pattern:
+          metavariable: $PATH
+          pattern-regex: ".*(input|args|request).*"
+    metadata:
+      cwe: "CWE-22"
+      category: "path-traversal"
+

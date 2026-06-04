@@ -1,0 +1,15 @@
+rules:
+  - id: autofix-pickle
+    severity: ERROR
+    message: "pickle.load() replaced with safe loader."
+    languages: [python]
+    pattern: pickle.load($X)
+    fix: "safe_load($X)"
+
+  - id: autofix-open
+    severity: WARNING
+    message: "open() replaced with safe path join."
+    languages: [python]
+    pattern: open($PATH, $MODE)
+    fix: "open(os.path.join(BASE_DIR, $PATH), $MODE)"
+

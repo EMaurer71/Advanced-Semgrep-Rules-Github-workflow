@@ -1,0 +1,11 @@
+rules:
+  - id: ml-model-extraction
+    severity: ERROR
+    message: "Model extraction vulnerability."
+    languages: [python]
+    patterns:
+      - pattern: return $MODEL.predict_proba($X)
+    metadata:
+      cwe: "CWE-1040"
+      category: "ml-cwe"
+

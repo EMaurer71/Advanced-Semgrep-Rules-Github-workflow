@@ -1,0 +1,22 @@
+rules:
+  - id: shell-escape
+    severity: WARNING
+    message: "Notebook executes shell commands."
+    languages: [python]
+    patterns:
+      - pattern-regex: "^!.*"
+
+  - id: ipython-system
+    severity: WARNING
+    message: "Notebook uses get_ipython().system() — risky."
+    languages: [python]
+    patterns:
+      - pattern: get_ipython().system($CMD)
+
+  - id: notebook-pickle-load
+    severity: ERROR
+    message: "pickle.load() inside notebook — high risk."
+    languages: [python]
+    patterns:
+      - pattern: pickle.load($X)
+

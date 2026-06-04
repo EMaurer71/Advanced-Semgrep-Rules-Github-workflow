@@ -1,0 +1,16 @@
+rules:
+  - id: unsafe-subprocess
+    severity: ERROR
+    message: "Untrusted input passed to subprocess — command injection."
+    languages: [python]
+    patterns:
+      - pattern-either:
+          - pattern: subprocess.run($CMD, shell=True)
+          - pattern: subprocess.Popen($CMD, shell=True)
+      - metavariable-pattern:
+          metavariable: $CMD
+          pattern-regex: ".*(input|args|request).*"
+    metadata:
+      cwe: "CWE-78"
+      category: "command-injection"
+

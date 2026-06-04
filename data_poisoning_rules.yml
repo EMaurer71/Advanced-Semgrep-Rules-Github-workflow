@@ -1,0 +1,18 @@
+rules:
+  - id: label-flip
+    severity: WARNING
+    message: "Suspicious label flipping pattern — poisoning risk."
+    languages: [python]
+    patterns:
+      - pattern-regex: "y\\s*=\\s*1-?y"
+
+  - id: synthetic-data-injection
+    severity: WARNING
+    message: "Synthetic data appended without validation."
+    languages: [python]
+    patterns:
+      - pattern: np.vstack([$A, $B])
+    metadata:
+      cwe: "CWE-1042"
+      category: "data-poisoning"
+

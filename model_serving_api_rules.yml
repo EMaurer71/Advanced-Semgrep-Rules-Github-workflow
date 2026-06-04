@@ -1,0 +1,34 @@
+rules:
+  - id: return-probabilities
+    severity: ERROR
+    message: "Returning raw probabilities enables model extraction attacks."
+    languages: [python]
+    patterns:
+      - pattern: return $MODEL.predict_proba($X)
+    metadata:
+      cwe: "CWE-1040"
+      category: "model-serving"
+    fix: "Return class labels only."
+
+  - id: missing-auth
+    severity: ERROR
+    message: "Model API endpoint missing authentication."
+    languages: [python]
+    patterns:
+      - pattern-regex: "def predict\\(.*\\):"
+    metadata:
+      cwe: "CWE-306"
+      category: "model-serving"
+    fix: "Add authentication and authorization."
+
+  - id: missing-rate-limit
+    severity: WARNING
+    message: "Model API endpoint missing rate limiting."
+    languages: [python]
+    patterns:
+      - pattern-regex: "def predict"
+    metadata:
+      cwe: "CWE-770"
+      category: "model-serving"
+    fix: "Add rate limiting to prevent model extraction."
+

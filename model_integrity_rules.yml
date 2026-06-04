@@ -1,0 +1,26 @@
+rules:
+  - id: untrusted-model-load
+    severity: ERROR
+    message: "Model loaded from untrusted path."
+    languages: [python]
+    patterns:
+      - pattern-either:
+          - pattern: torch.load($PATH)
+          - pattern: joblib.load($PATH)
+          - pattern: pickle.load(open($PATH))
+    metadata:
+      cwe: "CWE-502"
+      category: "model-integrity"
+    fix: "Validate model path and verify checksums."
+
+  - id: missing-checksum
+    severity: WARNING
+    message: "Model loaded without integrity verification."
+    languages: [python]
+    patterns:
+      - pattern-regex: "load_model\\("
+    metadata:
+      cwe: "CWE-353"
+      category: "model-integrity"
+    fix: "Verify SHA256 or digital signature."
+

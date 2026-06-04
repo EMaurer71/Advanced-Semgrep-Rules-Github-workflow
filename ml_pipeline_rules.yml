@@ -1,0 +1,38 @@
+rules:
+  - id: unvalidated-csv-load
+    severity: WARNING
+    message: "CSV loaded without schema or dtype validation."
+    languages: [python]
+    patterns:
+      - pattern: pd.read_csv($FILE)
+    metadata:
+      cwe: "CWE-20"
+      category: "ml-pipeline"
+    fix: "Use dtype=, converters=, or schema validation."
+
+  - id: unbounded-data-concat
+    severity: WARNING
+    message: "Unbounded concatenation of datasets — poisoning risk."
+    languages: [python]
+    patterns:
+      - pattern: pd.concat($X)
+    metadata:
+      cwe: "CWE-1039"
+      category: "ml-pipeline"
+    fix: "Validate dataset sources and enforce size limits."
+
+  - id: unsafe-feature-engineering
+    severity: WARNING
+    message: "Feature engineering uses untrusted input."
+    languages: [python]
+    patterns:
+      - pattern-regex: "df\
+
+\[['\"](.*input.*)['\"]\\]
+
+"
+    metadata:
+      cwe: "CWE-20"
+      category: "ml-pipeline"
+    fix: "Validate and sanitize user-controlled features."
+

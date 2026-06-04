@@ -1,0 +1,42 @@
+
+This workflow:
+
+- Runs on every push + PR  
+- Scans your repo using your custom rules  
+- Uploads results as GitHub annotations  
+- Fails the build on ERROR‑level findings  
+
+```yaml
+name: Semgrep ML Security Scan
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep with ML Security Rules
+        run: semgrep --config rules --error --json > semgrep-report.json
+
+      - name: Upload Semgrep Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-report
+          path: semgrep-report.json
+
